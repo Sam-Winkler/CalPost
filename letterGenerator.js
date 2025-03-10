@@ -98,8 +98,7 @@ function getEmailFromName(name, isSenateMember) {
 async function findLegislators(address, city, state, zip) {
     try {
         const fullAddress = `${address}, ${city}, ${state} ${zip}`;
-        const apiKey = process.env.GOOGLE_API_KEY;
-        const change = '';
+        const apiKey = window.CONFIG.GOOGLE_API_KEY;
 
         const url = `https://civicinfo.googleapis.com/civicinfo/v2/representatives?address=${encodeURIComponent(fullAddress)}&levels=administrativeArea1&key=${apiKey}`;
 

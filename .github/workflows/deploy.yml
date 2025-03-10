@@ -8,24 +8,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # This is important for allowing deployment
+      contents: write
     
     steps:
     - uses: actions/checkout@v3
     
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        
-    - name: Install dependencies
-      run: npm install webpack webpack-cli html-webpack-plugin copy-webpack-plugin
-      
-    - name: Build website
-      env:
-        GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-      run: npx webpack
-        
+    - name: Create config file with API key
+      run: |
+        echo "window.CONFIG = { GOOGLE_API_KEY: '${{ secrets.GOOGLE_API_KEY }}' };" > config.js
+    
+    - name: Copy files to dist
+      run: |
+        mkdir -p dist
+        cp index.html dist/
+        cp styles.css dist/
+        cp letterGenerator.js dist/
+        cp config.js dist/
+    
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
