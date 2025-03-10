@@ -17,12 +17,17 @@ jobs:
         node-version: 16
         
     - name: Install dependencies
-      run: npm install webpack webpack-cli html-webpack-plugin copy-webpack-plugin style-loader css-loader
+      run: npm install webpack webpack-cli html-webpack-plugin copy-webpack-plugin
       
+    - name: Debug Files
+      run: |
+        ls -la
+        cat webpack.config.js
+        
     - name: Build website
       env:
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-      run: npx webpack --mode production
+      run: npx webpack
         
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@4.1.4
