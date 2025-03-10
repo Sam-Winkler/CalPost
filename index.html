@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California VFX Workers for Inclusion</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>California VFX Workers for Inclusion</h1>
+        <p>Generate a personalized letter to your state representatives in support of VFX incentives in California.</p>
+    </header>
+
+    <div class="container">
+        <div class="three-columns">
+            <!-- Instructions Column -->
+            <div class="column">
+                <div class="instructions">
+                    <h3>How it works:</h3>
+                    <ol class="steps">
+                        <li>Enter your information in the form.</li>
+                        <li>Click the button to generate your letters.</li>
+                        <li>We'll find your California legislators using Google's Civic Information API.</li>
+                        <li>Copy the letter and the legislator's email address into your email client.</li>
+                    </ol>
+                    <div class="note">
+                        <strong>Note:</strong> This site uses the Google Civic Information API to identify
+                        your representatives based on your address. Your data is never stored.
+                    </div>
+                </div>
+            </div>
+
+            <!-- First Form Column - Personal Info -->
+            <div class="column">
+                <div class="form-group">
+                    <label for="fullName">Full Name:</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name">
+                    <div id="nameError" class="error">Please enter your full name</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" placeholder="Enter your email address">
+                    <div id="emailError" class="error">Please enter a valid email address</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="occupation">Occupation:</label>
+                    <input type="text" id="occupation"
+                        placeholder="Enter your occupation (e.g., VFX Artist, Compositor)">
+                </div>
+
+                <div class="form-group">
+                    <label for="company">Company / Affiliation (optional):</label>
+                    <input type="text" id="company" placeholder="Enter your company or affiliation">
+                </div>
+            </div>
+
+            <!-- Second Form Column - Address & Action -->
+            <div class="column">
+                <div class="form-group">
+                    <label for="address">Street Address:</label>
+                    <input type="text" id="address" placeholder="Enter your street address">
+                    <div id="addressError" class="error">Please enter your street address</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <input type="text" id="city" placeholder="Enter your city">
+                    <div id="cityError" class="error">Please enter your city</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="zipCode">ZIP Code:</label>
+                    <input type="text" id="zipCode" placeholder="Enter your ZIP code">
+                    <div id="zipError" class="error">Please enter a valid 5-digit California ZIP code</div>
+                </div>
+
+                <div class="action-button">
+                    <button type="button" id="generateBtn">Generate Letters</button>
+                    <div id="loading" class="loading">Finding your legislators...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="result" id="resultArea">
+            <h2>Your Personalized Advocacy Letters</h2>
+
+            <div class="tabs">
+                <div class="tab active" id="senateTab">State Senator</div>
+                <div class="tab" id="assemblyTab">Assembly Member</div>
+            </div>
+
+            <div class="results-container">
+                <!-- Senate Letter Section -->
+                <div class="letter-section" id="senateLetter">
+                    <p>Below is your personalized letter to <span id="legislatorName">your State Senator</span> --
+                    <div class="legislator-email" id="senatorEmail">senator.email@senate.ca.gov</div>
+                    </p>
+
+                    <div class="email-template" id="letterContent"></div>
+
+                    <div class="buttons-container">
+                        <button class="copy-button" id="copyBtn">Copy Letter Text</button>
+                        <button class="copy-button" id="copySenatorEmailBtn">Copy Senator Email Address</button>
+                    </div>
+                </div>
+
+                <!-- Assembly Letter Section (initially hidden) -->
+                <div class="letter-section" id="assemblyLetter" style="display: none;">
+                    <p>Below is your personalized letter to <span id="assemblyMemberName">your Assembly Member</span> --
+                    <div class="legislator-email" id="assemblyEmail">assemblymember.email@assembly.ca.gov</div>
+                    </p>
+
+                    <div class="email-template" id="assemblyLetterContent"></div>
+
+                    <div class="buttons-container">
+                        <button class="copy-button" id="copyAssemblyBtn">Copy Letter Text</button>
+                        <button class="copy-button" id="copyAssemblyEmailBtn">Copy Assembly Member Email
+                            Address</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="letterGenerator.js"></script>
+</body>
+
+</html>
