@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # This is important for allowing deployment
     
     steps:
     - uses: actions/checkout@v3
@@ -19,18 +21,12 @@ jobs:
     - name: Install dependencies
       run: npm install webpack webpack-cli html-webpack-plugin copy-webpack-plugin
       
-    - name: Debug Files
-      run: |
-        ls -la
-        cat webpack.config.js
-        
     - name: Build website
       env:
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
       run: npx webpack
         
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@4.1.4
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
-        branch: gh-pages
         folder: dist
