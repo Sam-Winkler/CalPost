@@ -1,0 +1,19 @@
+{
+  "name": "calpost",
+  "version": "1.0.0",
+  "description": "California VFX Workers for Inclusion letter generator",
+  "main": "letterGenerator.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack serve --open --mode development"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4",
+    "html-webpack-plugin": "^5.5.3",
+    "copy-webpack-plugin": "^11.0.0",
+    "style-loader": "^3.3.3",
+    "css-loader": "^6.8.1"
+  }
+}
