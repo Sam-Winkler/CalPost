@@ -465,3 +465,28 @@ function fallbackCopy(text, contentType) {
 
     document.body.removeChild(textArea);
 }
+
+// About overlay functionality
+document.addEventListener('DOMContentLoaded', function () {
+    // Set up about overlay handlers
+    const aboutBtn = document.getElementById('aboutBtn');
+    const aboutOverlay = document.getElementById('aboutOverlay');
+    const closeBtn = document.querySelector('.close-btn');
+
+    if (aboutBtn && aboutOverlay && closeBtn) {
+        aboutBtn.addEventListener('click', function () {
+            aboutOverlay.style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', function () {
+            aboutOverlay.style.display = 'none';
+        });
+
+        // Close when clicking outside the content
+        aboutOverlay.addEventListener('click', function (event) {
+            if (event.target === aboutOverlay) {
+                aboutOverlay.style.display = 'none';
+            }
+        });
+    }
+});

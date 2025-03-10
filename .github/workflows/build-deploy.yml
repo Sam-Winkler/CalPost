@@ -1,0 +1,23 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Replace API Key
+        run: |
+          sed -i 's/AIzaSyBu2X2U1n96YcTknA8LFva3PMqWtGZJXuA/${{ secrets.CIVIC_API_KEY }}/g' letterGenerator_v7.js
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: .
+          branch: gh-pages
