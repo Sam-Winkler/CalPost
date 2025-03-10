@@ -490,3 +490,47 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+// Add this to the existing letterGenerator.js file at the end
+
+// Form input floating label behavior
+document.addEventListener('DOMContentLoaded', function () {
+    // Get all form inputs
+    const formInputs = document.querySelectorAll('.form-group input, .form-group select');
+
+    // Add focus and blur event listeners to each input
+    formInputs.forEach(input => {
+        const formGroup = input.closest('.form-group');
+
+        // Check if the input already has a value (on page refresh)
+        if (input.value.trim() !== '') {
+            formGroup.classList.add('has-value');
+        }
+
+        // Handle focus event
+        input.addEventListener('focus', function () {
+            formGroup.classList.add('focused');
+        });
+
+        // Handle blur event
+        input.addEventListener('blur', function () {
+            formGroup.classList.remove('focused');
+
+            // Add or remove has-value class based on whether input has a value
+            if (this.value.trim() !== '') {
+                formGroup.classList.add('has-value');
+            } else {
+                formGroup.classList.remove('has-value');
+            }
+        });
+
+        // Handle input event (for real-time updates)
+        input.addEventListener('input', function () {
+            if (this.value.trim() !== '') {
+                formGroup.classList.add('has-value');
+            } else {
+                formGroup.classList.remove('has-value');
+            }
+        });
+    });
+});
