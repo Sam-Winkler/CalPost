@@ -1,1 +1,181 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>California VFX Workers for Inclusion</title><link rel="stylesheet" href="styles.css"><script defer="defer" src="main.bundle.js"></script></head><body><header><h1>California VFX Workers for Inclusion</h1><p>Generate a personalized letter to your state representatives in support of VFX incentives in California.</p></header><div class="container"><div class="three-columns"><div class="column"><div class="instructions"><h3>How it works:</h3><ol class="steps"><li>Enter your information in the form.</li><li>Click the button to generate your letters.</li><li>We'll find your California legislators using Google's Civic Information API.</li><li>Copy the letter and the legislator's email address into your email client.</li></ol><div class="note"><strong>Note:</strong> This site uses the Google Civic Information API to identify your representatives based on your address. Your data is never stored.</div><button id="aboutBtn" class="info-button">About This Site</button></div></div><div class="column"><div class="form-group"><label for="fullName">Full Name:</label> <input id="fullName" placeholder="Enter your full name"><div id="nameError" class="error">Please enter your full name</div></div><div class="form-group"><label for="email">Email Address:</label> <input type="email" id="email" placeholder="Enter your email address"><div id="emailError" class="error">Please enter a valid email address</div></div><div class="form-group"><label for="occupation">Occupation:</label> <input id="occupation" placeholder="Enter your occupation (e.g., VFX Artist, Compositor)"></div><div class="form-group"><label for="company">Company / Affiliation (optional):</label> <input id="company" placeholder="Enter your company or affiliation"></div></div><div class="column"><div class="form-group"><label for="address">Street Address:</label> <input id="address" placeholder="Enter your street address"><div id="addressError" class="error">Please enter your street address</div></div><div class="form-group"><label for="city">City:</label> <input id="city" placeholder="Enter your city"><div id="cityError" class="error">Please enter your city</div></div><div class="form-group"><label for="zipCode">ZIP Code:</label> <input id="zipCode" placeholder="Enter your ZIP code"><div id="zipError" class="error">Please enter a valid 5-digit California ZIP code</div></div><div class="action-button"><button type="button" id="generateBtn">Generate Letters</button><div id="loading" class="loading">Finding your legislators...</div></div></div></div><div class="result" id="resultArea"><h2>Your Personalized Advocacy Letters</h2><div class="tabs"><div class="tab active" id="senateTab">State Senator</div><div class="tab" id="assemblyTab">Assembly Member</div></div><div class="results-container"><div class="letter-section" id="senateLetter"><p>Below is your personalized letter to <span id="legislatorName">your State Senator</span> --</p><div class="legislator-email" id="senatorEmail">senator.email@senate.ca.gov</div><p></p><div class="email-template" id="letterContent"></div><div class="buttons-container"><button class="copy-button" id="copyBtn">Copy Letter Text</button> <button class="copy-button" id="copySenatorEmailBtn">Copy Senator Email Address</button></div></div><div class="letter-section" id="assemblyLetter" style="display: none;"><p>Below is your personalized letter to <span id="assemblyMemberName">your Assembly Member</span> --</p><div class="legislator-email" id="assemblyEmail">assemblymember.email@assembly.ca.gov</div><p></p><div class="email-template" id="assemblyLetterContent"></div><div class="buttons-container"><button class="copy-button" id="copyAssemblyBtn">Copy Letter Text</button> <button class="copy-button" id="copyAssemblyEmailBtn">Copy Assembly Member Email Address</button></div></div></div></div></div><div id="aboutOverlay" class="overlay"><div class="overlay-content"><span class="close-btn">&times;</span><h2>How I Built the VFX Inclusion Letter Website</h2><div class="about-content"><p>I wanted to create a simple but effective tool to help California VFX workers advocate for including visual effects in the state's film industry tax incentives. Here's how I built it:</p><p>I needed a straightforward way for VFX professionals to contact their legislators. The challenge was creating something that would require minimal effort from users while still generating personalized, professional-looking letters.</p><p>First, I designed a simple form to collect basic information - name, email, occupation, company and address. The address part was crucial because I needed to determine which specific California legislators represented each user.</p><p>For the technical implementation, I kept things lightweight and focused. I used plain HTML, CSS, and JavaScript without any heavy frameworks. This keeps the site fast and means it can be hosted almost anywhere with minimal resources.</p><p>The most interesting part was integrating with Google's Civic Information API. This service lets you look up elected officials based on a physical address. I set up a function that takes the user's address, queries the API, and returns both their State Senator and Assembly Member.</p><p>I ran into a few challenges along the way. One tricky part was handling the email addresses for legislators. At first, I tried maintaining a full database of California legislators with their contact info, but this approach had issues. I eventually simplified it to follow the standard email patterns used by the California legislature (senator.lastname@senate.ca.gov and assemblymember.lastname@assembly.ca.gov).</p><p>For the letter content, I crafted a template that makes a clear, concise case for including VFX in film incentives. The system automatically fills in the right legislator names and adds the user's personal information. It generates two separate letters - one for the State Senator and one for the Assembly Member.</p><p>I added some quality-of-life features like "copy to clipboard" buttons and tabbed navigation between the two letters. I also included clear instructions and a note about data privacy to reassure users that their information stays in their browser.</p><p>The site doesn't need a backend server since all the processing happens client-side in JavaScript. This makes it perfect for hosting on GitHub Pages, which is not only free but also secure and reliable.</p><p>I am pretty busy these days and I really only had one day to put this site together, so I used Claude.ai to help me with all the code and implementation.</p><p>Looking back, I'm happy with how the project turned out. It's a simple, focused tool that serves a specific purpose and hopefully will help amplify the voices of VFX workers in California who are advocating for fair treatment in the state's film incentive programs.</p></div></div></div><script src="letterGenerator.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California VFX Workers for Inclusion</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+    <header>
+        <h1>California VFX Workers for Inclusion</h1>
+        <p>Generate a personalized letter to your state representatives in support of VFX incentives in California.</p>
+    </header>
+
+    <div class="container">
+        <div class="three-columns">
+            <!-- Instructions Column -->
+            <div class="column">
+                <div class="instructions">
+                    <h3>How it works:</h3>
+                    <ol class="steps">
+                        <li>Enter your information in the form.</li>
+                        <li>Click the button to generate your letters.</li>
+                        <li>We'll find your California legislators using Google's Civic Information API.</li>
+                        <li>Copy the letter and the legislator's email address into your email client.</li>
+                    </ol>
+                    <div class="note">
+                        <strong>Note:</strong> This site uses the Google Civic Information API to identify
+                        your representatives based on your address. Your data is never stored.
+                    </div>
+                    <button id="aboutBtn" class="info-button">About This Site</button>
+                </div>
+            </div>
+
+            <!-- First Form Column - Personal Info -->
+            <div class="column">
+                <div class="form-group">
+                    <label for="fullName">Full Name:</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name">
+                    <div id="nameError" class="error">Please enter your full name</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" placeholder="Enter your email address">
+                    <div id="emailError" class="error">Please enter a valid email address</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="occupation">Occupation:</label>
+                    <input type="text" id="occupation"
+                        placeholder="Enter your occupation (e.g., VFX Artist, Compositor)">
+                </div>
+
+                <div class="form-group">
+                    <label for="company">Company / Affiliation (optional):</label>
+                    <input type="text" id="company" placeholder="Enter your company or affiliation">
+                </div>
+            </div>
+
+            <!-- Second Form Column - Address & Action -->
+            <div class="column">
+                <div class="form-group">
+                    <label for="address">Street Address:</label>
+                    <input type="text" id="address" placeholder="Enter your street address">
+                    <div id="addressError" class="error">Please enter your street address</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <input type="text" id="city" placeholder="Enter your city">
+                    <div id="cityError" class="error">Please enter your city</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="zipCode">ZIP Code:</label>
+                    <input type="text" id="zipCode" placeholder="Enter your ZIP code">
+                    <div id="zipError" class="error">Please enter a valid 5-digit California ZIP code</div>
+                </div>
+
+                <div class="action-button">
+                    <button type="button" id="generateBtn">Generate Letters</button>
+                    <div id="loading" class="loading">Finding your legislators...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="result" id="resultArea">
+            <h2>Your Personalized Advocacy Letters</h2>
+
+            <div class="tabs">
+                <div class="tab active" id="senateTab">State Senator</div>
+                <div class="tab" id="assemblyTab">Assembly Member</div>
+            </div>
+
+            <div class="results-container">
+                <!-- Senate Letter Section -->
+                <div class="letter-section" id="senateLetter">
+                    <p>Below is your personalized letter to <span id="legislatorName">your State Senator</span> --
+                    <div class="legislator-email" id="senatorEmail">senator.email@senate.ca.gov</div>
+                    </p>
+
+                    <div class="email-template" id="letterContent"></div>
+
+                    <div class="buttons-container">
+                        <button class="copy-button" id="copyBtn">Copy Letter Text</button>
+                        <button class="copy-button" id="copySenatorEmailBtn">Copy Senator Email Address</button>
+                    </div>
+                </div>
+
+                <!-- Assembly Letter Section (initially hidden) -->
+                <div class="letter-section" id="assemblyLetter" style="display: none;">
+                    <p>Below is your personalized letter to <span id="assemblyMemberName">your Assembly Member</span> --
+                    <div class="legislator-email" id="assemblyEmail">assemblymember.email@assembly.ca.gov</div>
+                    </p>
+
+                    <div class="email-template" id="assemblyLetterContent"></div>
+
+                    <div class="buttons-container">
+                        <button class="copy-button" id="copyAssemblyBtn">Copy Letter Text</button>
+                        <button class="copy-button" id="copyAssemblyEmailBtn">Copy Assembly Member Email
+                            Address</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add this section to the bottom of your HTML, before the closing body tag -->
+    <div id="aboutOverlay" class="overlay">
+        <div class="overlay-content">
+            <span class="close-btn">&times;</span>
+            <h2>How I Built the VFX Inclusion Letter Website</h2>
+            <div class="about-content">
+                <p>I wanted to create a simple but effective tool to help California VFX workers advocate for including
+                    visual effects in the state's film industry tax incentives. Here's how I built it:
+                <p>I needed a straightforward way for VFX professionals to contact their legislators. The challenge was
+                    creating something that would require minimal effort from users while still generating personalized,
+                    professional-looking letters.</p>
+                <p>First, I designed a simple form to collect basic information - name, email, occupation, company and
+                    address. The address part was crucial because I needed to determine which specific California
+                    legislators represented each user.</p>
+                <p>For the technical implementation, I kept things lightweight and focused. I used plain HTML, CSS, and
+                    JavaScript without any heavy frameworks. This keeps the site fast and means it can be hosted almost
+                    anywhere with minimal resources.</p>
+                <p>The most interesting part was integrating with Google's Civic Information API. This service lets you
+                    look up elected officials based on a physical address. I set up a function that takes the user's
+                    address, queries the API, and returns both their State Senator and Assembly Member.</p>
+                <p>I ran into a few challenges along the way. One tricky part was handling the email addresses for
+                    legislators. At first, I tried maintaining a full database of California legislators with their
+                    contact info, but this approach had issues. I eventually simplified it to follow the standard email
+                    patterns used by the California legislature (senator.lastname@senate.ca.gov and
+                    assemblymember.lastname@assembly.ca.gov).</p>
+                <p>For the letter content, I crafted a template that makes a clear, concise case for including VFX in
+                    film incentives. The system automatically fills in the right legislator names and adds the user's
+                    personal information. It generates two separate letters - one for the State Senator and one for the
+                    Assembly Member.</p>
+                <p>I added some quality-of-life features like "copy to clipboard" buttons and tabbed navigation between
+                    the two letters. I also included clear instructions and a note about data privacy to reassure users
+                    that their information stays in their browser.</p>
+                <p>The site doesn't need a backend server since all the processing happens client-side in JavaScript.
+                    This makes it perfect for hosting on GitHub Pages, which is not only free but also secure and
+                    reliable.</p>
+                <p>I am pretty busy these days and I really only had one day to put this site together, so I used
+                    Claude.ai to help me with all the code and implementation.</p>
+                <p>Looking back, I'm happy with how the project turned out. It's a simple, focused tool that serves a
+                    specific purpose and hopefully will help amplify the voices of VFX workers in California who are
+                    advocating for fair treatment in the state's film incentive programs.</p>
+
+            </div>
+        </div>
+    </div>
+    <script src="config.js"></script>
+    <script src="letterGenerator.js"></script>
+
+</body>
+
+</html>
