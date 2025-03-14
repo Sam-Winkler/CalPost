@@ -83,6 +83,9 @@ function getEmailFromName(name, isSenateMember) {
         lastName = nameParts[nameParts.length - 1].trim();
     }
 
+    // Normalize accented characters first (e.g., 'é' becomes 'e')
+    lastName = lastName.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
     // Clean the last name - remove any non-alphabetic characters
     lastName = lastName.toLowerCase().replace(/[^a-z]/g, '');
 
